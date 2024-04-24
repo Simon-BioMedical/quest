@@ -1194,8 +1194,8 @@ function stopSubmit(event) {
   event.preventDefault();
 
   if (event.target.clickType == "BACK") {
-    resetChildren(event.target.elements);
-    event.target.value = undefined;
+    //resetChildren(event.target.elements);
+    //event.target.value = undefined;
     let buttonClicked = event.target.getElementsByClassName("previous")[0];
     previousClicked(buttonClicked, moduleParams.renderObj.retrieve, moduleParams.renderObj.store, rootElement);
   } else if (event.target.clickType == "RESET ANSWER") {
