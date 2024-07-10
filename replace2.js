@@ -295,7 +295,10 @@ transform.render = async (obj, divId, previousResults = {}) => {
         options = options + ` data-min-date-uneval=${optionObj.min}`
       }
       if (optionObj.hasOwnProperty("max")) {
-        options = options + `  data-max-date-uneval=${optionObj.max}`
+        options = options + ` data-max-date-uneval=${optionObj.max}`
+      }
+      if (optionObj.hasOwnProperty("limitLbl")) {
+        options = options + ` data-limitLbl=${optionObj.limitLbl}`
       }
       return `<input type='${type}' ${options}></input>`;
     }

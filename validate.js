@@ -122,6 +122,7 @@ function validate_month(inputElement) {
     }
     let minDate = (inputElement.dataset.minDate) ? new Date(decodeURIComponent(inputElement.dataset.minDate)) : undefined
     let maxDate = (inputElement.dataset.maxDate) ? new Date(decodeURIComponent(inputElement.dataset.maxDate)) : undefined
+    let limitLabel = (inputElement.dataset.limitlbl) ? inputElement.dataset.limitlbl : undefined
 
     let before_min_date = minDate && selectedDate < minDate
     let after_max_date = maxDate && selectedDate > maxDate
@@ -129,20 +130,23 @@ function validate_month(inputElement) {
     // When input type='month' is supported, out of range values aren't selectable on the calendar.
     // validationError shows when type="month" is not supported. Match expected text input format.
     if (before_min_date) {
-        validationError(inputElement, `Date must be after ${minDate.getUTCFullYear()}-${(minDate.getUTCMonth() + 1).toString().padStart(2, '0')}`)
+        let datelbl = (limitLabel) ? decodeURIComponent(limitLabel) : `${minDate.getUTCFullYear()}-${(minDate.getUTCMonth() + 1).toString().padStart(2, '0')}`
+        validationError(inputElement, `Date must be after ${datelbl}`)
     } else if (after_max_date) {
-        validationError(inputElement, `Date must be before ${maxDate.getUTCFullYear()}-${(maxDate.getUTCMonth() + 1).toString().padStart(2, '0')}`)
+        let datelbl = (limitLabel) ? decodeURIComponent(limitLabel) : `${maxDate.getUTCFullYear()}-${(maxDate.getUTCMonth() + 1).toString().padStart(2, '0')}`
+        validationError(inputElement, `Date must be before ${datelbl}`)
     } else {
         clearValidationError(inputElement)
     }
 }
 
 function validate_date(inputElement) {
-    console.log("in validate_date", inputElement)
+    console.log("in validate_date", inputElement)    
 
     let minDate = (inputElement.dataset.minDate) ? new Date(inputElement.dataset.minDate + "GMT") : undefined
     let maxDate = (inputElement.dataset.maxDate) ? new Date(inputElement.dataset.maxDate + "GMT") : undefined
     let selectedDate = new Date(inputElement.value)
+    let limitLabel = (inputElement.dataset.limitlbl) ? inputElement.dataset.limitlbl : undefined
 
     /*
     console.log(
@@ -155,9 +159,11 @@ function validate_date(inputElement) {
     let after_max_date = maxDate && selectedDate > maxDate
 
     if (before_min_date) {
-        validationError(inputElement, `Date must be after ${minDate.getUTCMonth() + 1}/${minDate.getUTCDate()}/${minDate.getUTCFullYear()}`)
+        let datelbl = (limitLabel) ? decodeURIComponent(limitLabel) : `${minDate.getUTCMonth() + 1}/${minDate.getUTCDate()}/${minDate.getUTCFullYear()}`
+        validationError(inputElement, `Date must be after ${datelbl}`)
     } else if (after_max_date) {
-        validationError(inputElement, `Date must be before ${maxDate.getUTCMonth() + 1}/${maxDate.getUTCDate()}/${maxDate.getUTCFullYear()}`)
+        let datelbl = (limitLabel) ? decodeURIComponent(limitLabel) : `${maxDate.getUTCMonth() + 1}/${maxDate.getUTCDate()}/${maxDate.getUTCFullYear()}`
+        validationError(inputElement, `Date must be before ${datelbl}`)
     } else {
         clearValidationError(inputElement)
     }
