@@ -760,10 +760,10 @@ transform.render = async (obj, divId, previousResults = {}) => {
               </button>
           </div>
           <div class="modal-body">
-              <p id="hardModalBodyText">There is 1 unanswered question on this page. Please answer this question.</p>
+              <p id="hardModalBodyText">There is 1 unanswered question on this page. If you cannot remember exactly, or there is no exact answer available, please select the closest answer available.</p>
           </div>
           <div class="modal-footer">
-              <button type="button" class="btn btn-danger" data-dismiss="modal" data-bs-dismiss="modal">Answer the Question</button>
+              <button type="button" class="btn btn-light" data-dismiss="modal" data-bs-dismiss="modal">Continue</button>
           </div>
           </div>
       </div>
@@ -801,7 +801,7 @@ transform.render = async (obj, divId, previousResults = {}) => {
             <p id="submitModalBodyText">Are you sure you want to submit your answers?</p>
         </div>
         <div class="modal-footer">
-          <button type="button" id="submitModalButton" class="btn btn-success" data-dismiss="modal" data-bs-dismiss="modal">Submit</button>
+          <button type="button" id="submitModalButton" class="btn btn-success" data-dismiss="modal" data-bs-dismiss="modal">Submit Questionnaire</button>
           <button type="button" id="cancelModal" class="btn btn-danger" data-dismiss="modal" data-bs-dismiss="modal">Cancel</button>
         </div>
         </div>
