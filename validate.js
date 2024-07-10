@@ -172,9 +172,10 @@ function validate_date(inputElement) {
 function validate_email(inputElement) {
     console.log("in validate email", inputElement)
 
-    let emailRegEx = /\S+@\S+\.\S+/;
+    //let emailRegEx = /\S+@\S+\.\S+/;
+    let emailRegEx = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,}|[0-9]{1,3})(\]?)$/g;
     if (!emailRegEx.test(inputElement.value)) {
-        validationError(inputElement, "Please enter an email address in this format: user@example.com.")
+        validationError(inputElement, "Please enter an email address in this format: user@example.com")
     } else {
         clearValidationError(inputElement)
     }
@@ -184,7 +185,7 @@ function validate_telephone(inputElement) {
     console.log("in validate telephone", inputElement)
 
     if (inputElement.value.length < 12) {
-        validationError(inputElement, "Please enter a phone number in this format: 999-999-9999.")
+        validationError(inputElement, "Please enter a phone number in this format: 999-999-9999")
     } else {
         clearValidationError(inputElement)
     }
