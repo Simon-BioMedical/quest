@@ -549,13 +549,11 @@ transform.render = async (obj, divId, previousResults = {}) => {
       return `|__|id=${id} name=${questID}|`;
     }
 
-
     questText = questText.replace(
       // /\|(?:__\|)(?:([^\s<][^|<]+[^\s<])\|)?\s*(.*)?/g,
       /(.*)?\|(?:__\|)(?:([^\s<][^|<]+[^\s<])\|)?(.*)?/g,
       fText
     );
-
     function fText(fullmatch, value1, opts, value2) {
       let { options, elementId } = guaranteeIdSet(opts, "txt");
       options = options.replaceAll(/(min|max)len\s*=\s*(\d+)/g,'data-$1len=$2')
@@ -577,20 +575,26 @@ transform.render = async (obj, divId, previousResults = {}) => {
     }
 
     // replace |___| with a textarea...
-    questText = questText.replace(/\|___\|((\w+)\|)?/g, fTextArea);
-    function fTextArea(x1, y1, z1) {
-      let elId = "";
-      if (z1 == undefined) {
-        elId = questID + "_ta";
-      } else {
-        elId = z1;
-      }
-      let options = "";
+    questText = questText.replace(/(.*)?\|(?:___\|)(?:([^\s<][^|<]+[^\s<])\|)?(.*)?/g, fTextArea);
+    function fTextArea(fullmatch, value1, opts, value2) {
+       let { options, elementId } = guaranteeIdSet(opts, "txt");
+       options = options.replaceAll(/(min|max)len\s*=\s*(\d+)/g, 'data-$1len=$2')
+       // if value1 or 2 contains an apostrophe, convert it to
+       // and html entity.  This may need to be preformed in other parts
+       // the code. As it turns out.  This causes a problem.  Only change the values in the aria-label.
+       // if you have (1) xx |__| text with  ' in it.
+       // then the apostrophe is put in the aria-label screwing up the rendering 
+       // value1 = value1?.replace(/'/g, "&apos;")
+       // value2 = value2?.replace(/'/g, "&apos;")
 
-      return `<textarea id='${elId}' ${options} style="resize:auto;"></textarea>`;
-    }
+       // this is really ugly..  What is going on here?
+       if (value1 && value1.includes('div')) return `${value1}<textarea aria-label='${value1.split('>').pop().replace(/'/g, "&apos;")}'name='${questID}' ${options} style="resize:auto;"></textarea>${value2}`
+       if (value1 && value2) return `<span>${value1}</span><textarea aria-label='${value1.replace(/'/g, "&apos;")} ${value2.replace(/'/g, "&apos;")}' name='${questID}' ${options} style="resize:auto;"></textarea><span>${value2}</span>`;
+       if (value1) return `<span>${value1}</span><textarea aria-label='${value1.replace(/'/g, "&apos;")}' name='${questID}' ${options} style="resize:auto;"></textarea>`;
+       if (value2) return `<textarea aria-label='${value2.replace(/'/g, "&apos;")}' name='${questID}' ${options} style="resize:auto;"></textarea><span>${value2}</span>`;
+   }
 
-    // replace #YNP with Yes No input
+   // replace #YNP with Yes No input
     questText = questText.replace(
       /#YNP/g, `<div class='response'><input type='radio' id="${questID}_1" name="${questID}" value="yes"></input><label for='${questID}_1'>Yes</label></div><div class='response'><input type='radio' id="${questID}_0" name="${questID}" value="no"></input><label for='${questID}_0'>No</label></div><div class='response'><input type='radio' id="${questID}_99" name="${questID}" value="prefer not to answer"></input><label for='${questID}_99'>Prefer not to answer</label></div>`
       // `(1) Yes
