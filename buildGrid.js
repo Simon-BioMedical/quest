@@ -92,7 +92,7 @@ function buildHtml(grid_obj){
   <div class="container">
     <div class="row">
       <div class="col-md-3 col-sm-12">
-        <input type='submit' class='previous w-100' value='BACK'/>
+        <input type='submit' class='previous w-100' value='PREVIOUS'/>
       </div>
       <div class="col-md-6 col-sm-12">
         <input type='submit' class='reset w-100' value='RESET ANSWER'/>
@@ -159,7 +159,7 @@ function buildHtml_og(grid_obj) {
   <div class="container">
     <div class="row">
       <div class="col-md-3 col-sm-12">
-        <input type='submit' class='previous w-100' value='BACK'/>
+        <input type='submit' class='previous w-100' value='PREVIOUS'/>
       </div>
       <div class="col-md-6 col-sm-12">
         <input type='submit' class='reset w-100' value='RESET ANSWER'/>

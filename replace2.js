@@ -189,7 +189,7 @@ transform.render = async (obj, divId, previousResults = {}) => {
     let prevButton =
       (endMatch && endMatch[1]) === "noback"
         ? ""
-        : (questID === 'END') ? "<input type='submit' class='previous w-100' id='lastBackButton' value='BACK'></input>" : "<input type='submit' class='previous w-100' value='BACK'></input>";
+        : (questID === 'END') ? "<input type='submit' class='previous w-100' id='lastBackButton' value='PREVIOUS'></input>" : "<input type='submit' class='previous w-100' value='PREVIOUS'></input>";
 
     //debugger;
     let resetButton = (questID === 'END') ? "<input type='submit' class='reset' id='submitButton' value='Submit Survey'></input>"
@@ -554,6 +554,7 @@ transform.render = async (obj, divId, previousResults = {}) => {
       /(.*)?\|(?:__\|)(?:([^\s<][^|<]+[^\s<])\|)?(.*)?/g,
       fText
     );
+
     function fText(fullmatch, value1, opts, value2) {
       let { options, elementId } = guaranteeIdSet(opts, "txt");
       options = options.replaceAll(/(min|max)len\s*=\s*(\d+)/g,'data-$1len=$2')
@@ -592,9 +593,9 @@ transform.render = async (obj, divId, previousResults = {}) => {
        if (value1 && value2) return `<span>${value1}</span><textarea aria-label='${value1.replace(/'/g, "&apos;")} ${value2.replace(/'/g, "&apos;")}' name='${questID}' ${options} style="resize:auto;"></textarea><span>${value2}</span>`;
        if (value1) return `<span>${value1}</span><textarea aria-label='${value1.replace(/'/g, "&apos;")}' name='${questID}' ${options} style="resize:auto;"></textarea>`;
        if (value2) return `<textarea aria-label='${value2.replace(/'/g, "&apos;")}' name='${questID}' ${options} style="resize:auto;"></textarea><span>${value2}</span>`;
-   }
+    }
 
-   // replace #YNP with Yes No input
+    // replace #YNP with Yes No input
     questText = questText.replace(
       /#YNP/g, `<div class='response'><input type='radio' id="${questID}_1" name="${questID}" value="yes"></input><label for='${questID}_1'>Yes</label></div><div class='response'><input type='radio' id="${questID}_0" name="${questID}" value="no"></input><label for='${questID}_0'>No</label></div><div class='response'><input type='radio' id="${questID}_99" name="${questID}" value="prefer not to answer"></input><label for='${questID}_99'>Prefer not to answer</label></div>`
       // `(1) Yes
@@ -608,6 +609,7 @@ transform.render = async (obj, divId, previousResults = {}) => {
       // `(1) Yes
       //  (0) No`
     );
+    
     // replace [a-zXX] with a checkbox box...
     // handle CB/radio + TEXT + TEXTBOX + ARROW + Text...
     questText = questText.replace(
@@ -1203,7 +1205,7 @@ function unrollLoops(txt) {
 function stopSubmit(event) {
   event.preventDefault();
 
-  if (event.target.clickType == "BACK") {
+  if (event.target.clickType == "PREVIOUS") {
     //resetChildren(event.target.elements);
     //event.target.value = undefined;
     let buttonClicked = event.target.getElementsByClassName("previous")[0];
